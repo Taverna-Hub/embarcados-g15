@@ -61,7 +61,7 @@ function DeviceList({ devices, loading, onSelectDevice, selectedDeviceMac, empty
   if (devices.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-6 text-center text-gray-500">
-        <p>{emptyMessage ?? 'Nenhum MAC capturado. Verifique se o firmware de captura do ESP32 esta em execucao.'}</p>
+        <p>{emptyMessage ?? 'Nenhum MAC capturado. Verifique se o firmware de captura do ESP32 está em execução.'}</p>
       </div>
     )
   }
@@ -125,7 +125,7 @@ function DeviceList({ devices, loading, onSelectDevice, selectedDeviceMac, empty
             <option value={25}>25</option>
             <option value={50}>50</option>
           </select>
-          <span>por pagina</span>
+          <span>por página</span>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
