@@ -19,7 +19,7 @@ function ManufacturerDonutChart({ data }: Props) {
     <div className="bg-white rounded-lg shadow p-6 h-full min-h-[320px]">
       <div className="mb-4">
         <h3 className="text-base font-semibold text-gray-900">Fabricantes detectados</h3>
-        <p className="text-sm text-gray-500">Distribuicao dos MACs filtrados por marca</p>
+        <p className="text-sm text-gray-500">Distribuição dos MACs filtrados por marca</p>
       </div>
 
       {!hasData ? (
