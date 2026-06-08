@@ -35,7 +35,7 @@ function HeatmapTooltip({ active, payload }: any) {
       <div className="rounded-lg border border-gray-200 bg-white p-3 shadow text-sm">
       <p className="font-mono font-semibold text-gray-900">{data.mac}</p>
       <p className="text-gray-600">Marca: {data.manufacturer}</p>
-      <p className="text-gray-600">Distancia por RSSI: {data.rssiDistance.toFixed(1)}%</p>
+      <p className="text-gray-600">Distância por RSSI: {data.rssiDistance.toFixed(1)}%</p>
       <p className="text-gray-600">RSSI: {data.rssi} dBm</p>
       <p className="text-gray-600">Canal: {data.channel ?? '-'}</p>
       <p className="text-gray-600">Visto: {data.seenCount}</p>
@@ -59,7 +59,7 @@ function DistanceHeatmap({ devices }: Props) {
   return (
     <div className="bg-white rounded-lg shadow p-6 min-h-[360px]">
       <div className="mb-4">
-        <h3 className="text-base font-semibold text-gray-900">Scatterplot de distancia por RSSI</h3>
+        <h3 className="text-base font-semibold text-gray-900">Scatterplot de distância por RSSI</h3>
         <p className="text-sm text-gray-500">Cada ponto representa um MAC; quanto mais longe da reta, mais fraco o sinal</p>
       </div>
 
@@ -76,16 +76,16 @@ function DistanceHeatmap({ devices }: Props) {
               name="Endereco"
               interval="preserveStartEnd"
               tick={{ fontSize: 12 }}
-              label={{ value: 'Enderecos MAC', position: 'insideBottom', offset: -10, fontSize: 12 }}
+              label={{ value: 'Endereços MAC', position: 'insideBottom', offset: -10, fontSize: 12 }}
             />
             <YAxis
               type="number"
               dataKey="rssiDistance"
-              name="Distancia por RSSI"
+              name="Distância por RSSI"
               unit="%"
               domain={[0, 100]}
               tick={{ fontSize: 12 }}
-              label={{ value: 'Distancia por RSSI', angle: -90, position: 'insideLeft', fontSize: 12 }}
+              label={{ value: 'Distância por RSSI', angle: -90, position: 'insideLeft', fontSize: 12 }}
             />
             <ZAxis range={[64, 164]} />
             <ReferenceLine y={0} stroke="#94a3b8" strokeWidth={2} />
