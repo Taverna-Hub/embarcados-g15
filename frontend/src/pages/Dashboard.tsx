@@ -97,28 +97,28 @@ function Dashboard(): JSX.Element {
         <DashboardKpiCard
           title="Pessoas por WiFi"
           value={peopleInRoom}
-          description="Sinal forte no ultimo batch"
+          description="Sinal forte no último batch"
           icon={<MapPin className="w-6 h-6" />}
           tone="green"
         />
         <DashboardKpiCard
           title="Sensor optico 2"
           value={opticSensorCounter.people_count}
-          description="Contagem fisica via MQTT"
+          description="Contagem física via MQTT"
           icon={<Users className="w-6 h-6" />}
           tone="blue"
         />
         <DashboardKpiCard
           title="Marca mais comum"
           value={mostCommonManufacturer}
-          description="Sinal forte no ultimo batch"
+          description="Sinal forte no último batch"
           icon={<Tags className="w-6 h-6" />}
           tone="orange"
         />
         <DashboardKpiCard
           title="Detectados agora"
           value={currentBatchDevices.length}
-          description="MACs do ultimo batch apos filtros"
+          description="MACs do último batch após filtros"
           icon={<Smartphone className="w-6 h-6" />}
           tone="blue"
         />
@@ -140,7 +140,7 @@ function Dashboard(): JSX.Element {
             loading={loading}
             onSelectDevice={setSelectedDevice}
             selectedDeviceMac={selectedDevice?.mac_address}
-            emptyMessage="Nenhum MAC identificado no ultimo batch."
+            emptyMessage="Nenhum MAC identificado no último batch."
           />
         </div>
 
