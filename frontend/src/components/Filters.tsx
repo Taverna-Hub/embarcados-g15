@@ -48,7 +48,7 @@ function Filters({ filters, setFilters, osOptions, showStoredToggle = true }: Fi
               onChange={handleShowStoredChange}
               className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
             />
-            <span>Mostrar todos os enderecos armazenados</span>
+            <span>Mostrar todos os endereços armazenados</span>
           </label>
         )}
 
@@ -72,11 +72,11 @@ function Filters({ filters, setFilters, osOptions, showStoredToggle = true }: Fi
           <label className="block text-sm font-medium text-gray-700 mb-2">Intensidade do sinal (RSSI)</label>
           <div className="space-y-2">
             <div>
-              <label className="text-xs text-gray-600">Mín: {filters.minRssi} dBm</label>
+              <label className="text-xs text-gray-600">Mínimo: {filters.minRssi} dBm</label>
               <input type="range" min={-100} max={0} value={filters.minRssi} onChange={(e) => handleRssiChange('minRssi', Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
             </div>
             <div>
-              <label className="text-xs text-gray-600">Máx: {filters.maxRssi} dBm</label>
+              <label className="text-xs text-gray-600">Máximo: {filters.maxRssi} dBm</label>
               <input type="range" min={-100} max={0} value={filters.maxRssi} onChange={(e) => handleRssiChange('maxRssi', Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
             </div>
           </div>
