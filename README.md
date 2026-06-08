@@ -1,22 +1,22 @@
-# WiFi MAC Capture e Analise de Sinal
+# WiFi MAC Capture e Análise de Sinal
 
-Projeto embarcado para captura passiva de dispositivos WiFi proximos, orquestracao dos dados via MQTT/Node-RED, analise com modulo de Machine Learning e exposicao dos resultados por uma API FastAPI.
+Projeto embarcado para captura passiva de dispositivos WiFi próximos, orquestração dos dados via MQTT/Node-RED, análise com modulo de Machine Learning e exposição dos resultados por uma API FastAPI.
 
-O fluxo principal do sistema e:
+O fluxo principal do sistema é:
 
 ```text
 ESP32 -> MQTT Mosquitto -> Node-RED -> Notebook/ML -> PostgreSQL -> Backend API
 ```
 
-## Visao Geral
+## Visão Geral
 
-Este projeto identifica dispositivos proximos a partir de pacotes WiFi capturados passivamente. Os dados capturados pelo ESP32 sao enviados para um broker MQTT, passam por validacao e transformacao no Node-RED, sao analisados pelo servico de ML/Notebook e gravados em um banco compartilhado. O backend consulta esse banco e disponibiliza endpoints REST para dispositivos, historico e estatisticas.
+Este projeto identifica dispositivos próximos a partir de pacotes WiFi capturados passivamente. Os dados capturados pelo ESP32 são enviados para um broker MQTT, passam por validação e transformação no Node-RED, são analisados pelo serviço de ML/Notebook e gravados em um banco compartilhado. O backend consulta esse banco e disponibiliza endpoints REST para dispositivos, histórico e estatísticas.
 
-## Modulos
+## Módulos
 
 ### Hardware
 
-Codigo embarcado do ESP32 responsavel pela captura passiva de pacotes WiFi e publicacao dos dados no topico MQTT de entrada.
+Código embarcado do ESP32 responsável pela captura passiva de pacotes WiFi e publicação dos dados no tópico MQTT de entrada.
 
 Arquivos principais:
 
@@ -26,60 +26,60 @@ Arquivos principais:
 
 ### Node-RED e MQTT
 
-O modulo `nodered/` atua como broker MQTT e orquestrador dos dados de captura.
+O módulo `nodered/` atua como broker MQTT e orquestrador dos dados de captura.
 
-Servicos iniciados via Docker Compose:
+Serviços iniciados via Docker Compose:
 
 - Node-RED: `http://localhost:1880`
 - Mosquitto MQTT Broker: `localhost:1883`
 
-Topicos principais:
+Tópicos principais:
 
 - Entrada: `esp32/wifi/scan`
-- Saida validada: `nodered/wifi/data`
+- Saída validada: `nodered/wifi/data`
 - Erros: `nodered/errors`
 
 O fluxo do Node-RED:
 
 1. Recebe dados brutos do ESP32.
 2. Faz parse do JSON.
-3. Valida estrutura, MAC address, RSSI, canal e frequencia.
+3. Valida estrutura, MAC address, RSSI, canal e frequência.
 4. Normaliza MAC addresses para uppercase.
 5. Remove campos vazios e adiciona timestamp de processamento.
 6. Publica os dados validados para o Notebook/ML.
 
 ### ML / Notebook
 
-O modulo `ML/` processa os dados validados publicados pelo Node-RED e persiste os resultados no banco compartilhado.
+O módulo `ML/` processa os dados validados publicados pelo Node-RED e persiste os resultados no banco compartilhado.
 
 Funcionalidades:
 
-- Identificacao de sistema operacional por MAC OUI.
-- Estimativa de distancia usando RSSI e frequencia.
-- Preservacao de metadados da captura passiva, como canal, tipo de frame e quantidade de aparicoes.
-- Classificacao simples de localizacao como `inside` ou `outside`.
-- Processamento em lote de multiplos dispositivos.
+- Identificação de sistema operacional por MAC OUI.
+- Estimativa de distância usando RSSI e frequência.
+- Preservação de metadados da captura passiva, como canal, tipo de frame e quantidade de aparições.
+- Classificação simples de localização como `inside` ou `outside`.
+- Processamento em lote de múltiplos dispositivos.
 
-O servico escuta o topico `nodered/wifi/data`, processa o payload e grava os registros analisados no banco.
+O serviço escuta o tópico `nodered/wifi/data`, processa o payload e grava os registros analisados no banco.
 
 ### Backend
 
-O modulo `backend/` contem uma API FastAPI para consulta dos dispositivos detectados, historico, estatisticas e status do sistema.
+O módulo `backend/` contém uma API FastAPI para consulta dos dispositivos detectados, histórico, estatísticas e status do sistema.
 
 Funcionalidades:
 
-- API REST para dispositivos, historico e estatisticas.
-- Identificacao de SO usando lookup de MAC OUI.
-- Estimativa de distancia por RSSI.
-- Registro de historico de deteccoes.
-- Agregacoes e estatisticas.
-- Criacao automatica das tabelas do banco.
+- API REST para dispositivos, histórico e estatísticas.
+- Identificação de SO usando lookup de MAC OUI.
+- Estimativa de distância por RSSI.
+- Registro de histórico de detecções.
+- Agregações e estatísticas.
+- Criação automática das tabelas do banco.
 
-Importante: a ingestao MQTT e a analise dos dispositivos sao feitas pelo Notebook/ML. O backend consome os dados ja persistidos no banco.
+Importante: a ingestão MQTT e a análise dos dispositivos são feitas pelo Notebook/ML. O backend consome os dados já persistidos no banco.
 
 ### Frontend
 
-O projeto tambem possui um frontend em `frontend/`, preparado para consumir a API e exibir painel, lista de dispositivos, detalhes, filtros e estatisticas.
+O projeto também possui um frontend em `frontend/`, preparado para consumir a API e exibir painel, lista de dispositivos, detalhes, filtros e estatísticas.
 
 ## Requisitos
 
@@ -90,15 +90,15 @@ O projeto tambem possui um frontend em `frontend/`, preparado para consumir a AP
 - Node-RED e Mosquitto via `nodered/docker-compose.yml`
 - MQTT CLI opcional para testes (`mosquitto_pub` e `mosquitto_sub`)
 
-## Configuracao
+## Configuração
 
-Configure as variaveis de ambiente do backend em `backend/.env`:
+Configure as variáveis de ambiente do backend em `backend/.env`:
 
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/wifi_detection
 ```
 
-Se o projeto for executado em modulos separados, instale as dependencias Python de cada parte:
+Se o projeto for executado em módulos separados, instale as dependências Python de cada parte:
 
 ```bash
 pip install -r requirements.txt
@@ -114,7 +114,7 @@ A partir da pasta `nodered/`:
 docker-compose up -d
 ```
 
-Para parar os servicos:
+Para parar os serviços:
 
 ```bash
 docker-compose down
@@ -135,9 +135,9 @@ A partir da raiz do projeto:
 python ML/notebook.py
 ```
 
-O servico escuta o topico `nodered/wifi/data` e salva no banco os dispositivos processados.
+O serviço escuta o tópico `nodered/wifi/data` e salva no banco os dispositivos processados.
 
-Tambem e possivel usar a funcao diretamente em Python:
+Tambem é possivel usar a função diretamente em Python:
 
 ```python
 from ML.notebook import process_payload
@@ -181,10 +181,10 @@ Inicie a API:
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-A API ficara disponivel em:
+A API ficará disponível em:
 
 - API: `http://localhost:8000`
-- Documentacao Swagger: `http://localhost:8000/docs`
+- Documentação Swagger: `http://localhost:8000/docs`
 
 ## Endpoints da API
 
@@ -193,12 +193,12 @@ A API ficara disponivel em:
 - `GET /api/devices` - Lista todos os dispositivos.
 - `GET /api/devices/{mac}` - Retorna detalhes de um dispositivo.
 - `POST /api/devices` - Cria ou atualiza um dispositivo.
-- `GET /api/devices/{mac}/detections` - Retorna deteccoes de um dispositivo.
+- `GET /api/devices/{mac}/detections` - Retorna detecções de um dispositivo.
 
 ### History
 
-- `GET /api/history/detections` - Retorna historico de deteccoes.
-- `GET /api/history/stats` - Retorna estatisticas.
+- `GET /api/history/detections` - Retorna histórico de detecções.
+- `GET /api/history/stats` - Retorna estatísticas.
 - `GET /api/history/timeline` - Retorna dados de timeline.
 
 ### System
@@ -210,7 +210,7 @@ A API ficara disponivel em:
 
 ### Entrada do ESP32
 
-Topico: `esp32/wifi/scan`
+Tópico: `esp32/wifi/scan`
 
 ```json
 {
@@ -229,9 +229,9 @@ Topico: `esp32/wifi/scan`
 }
 ```
 
-### Saida Validada do Node-RED
+### Saída Validada do Node-RED
 
-Topico: `nodered/wifi/data`
+Tópico: `nodered/wifi/data`
 
 ```json
 {
@@ -249,7 +249,7 @@ Topico: `nodered/wifi/data`
 }
 ```
 
-### Resultado da Analise
+### Resultado da Análise
 
 ```json
 {
@@ -265,44 +265,44 @@ Topico: `nodered/wifi/data`
 
 ### `devices`
 
-- MAC address unico.
-- Timestamps de primeira e ultima deteccao.
-- RSSI, canal, frequencia, tipo de frame, quantidade de aparicoes e SSID.
+- MAC address único.
+- Timestamps de primeira e última detecção.
+- RSSI, canal, frequência, tipo de frame, quantidade de aparições e SSID.
 - SO identificado.
-- Distancia estimada.
+- Distância estimada.
 
 ### `detections`
 
 - MAC do dispositivo.
 - Timestamp.
 - RSSI.
-- Canal e frequencia.
-- Tipo de frame e quantidade de aparicoes.
-- Localizacao (`inside` ou `outside`).
+- Canal e frequência.
+- Tipo de frame e quantidade de aparições.
+- Localização (`inside` ou `outside`).
 
 ### `analysis`
 
 - MAC do dispositivo.
 - SO identificado.
-- Distancia estimada.
-- Score de confianca.
-- Ultima atualizacao.
+- Distância estimada.
+- Score de confiança.
+- Última atualização.
 
-## Estimativa de Distancia e Localizacao
+## Estimativa de Distância e Localização
 
-A estimativa de distancia usa um modelo simplificado de perda de percurso:
+A estimativa de distância usa um modelo simplificado de perda de percurso:
 
 ```text
 Distance = 10^((TxPower - RSSI) / (10 * N))
 ```
 
-Parametros usados:
+Parâmetros usados:
 
-- `TxPower`: `-30 dBm`, valor tipico para WiFi.
+- `TxPower`: `-30 dBm`, valor típico para WiFi.
 - `N`: `2.0` para 5 GHz.
 - `N`: `2.5` para 2.4 GHz.
 
-Classificacao de localizacao:
+Classificação de localização:
 
 - `inside`: RSSI maior que `-70 dBm`.
 - `outside`: RSSI menor ou igual a `-70 dBm`.
@@ -327,13 +327,13 @@ mosquitto_pub -h localhost -t esp32/wifi/scan -m '{
 }'
 ```
 
-Assinar o topico de saida:
+Assinar o tópico de saída:
 
 ```bash
 mosquitto_sub -h localhost -t nodered/wifi/data
 ```
 
-Monitorar topicos:
+Monitorar tópicos:
 
 ```bash
 mosquitto_sub -h localhost -v -t "nodered/#"
@@ -344,11 +344,11 @@ mosquitto_sub -h localhost -v -t "esp32/#"
 
 ### MQTT connection refused
 
-- Verifique se o container do Mosquitto esta rodando: `docker ps`.
+- Verifique se o container do Mosquitto está rodando: `docker ps`.
 - Consulte os logs: `docker-compose logs mosquitto`.
-- Verifique se a porta `1883` nao esta bloqueada.
+- Verifique se a porta `1883` não está bloqueada.
 
-### Node-RED nao conecta no MQTT
+### Node-RED não conecta no MQTT
 
 - Verifique o hostname do broker. Em rede Docker, ele deve ser `mosquitto`.
 - Confira a conectividade da rede Docker: `docker network ls`.
@@ -356,30 +356,30 @@ mosquitto_sub -h localhost -v -t "esp32/#"
 
 ### Nenhuma mensagem trafegando
 
-- Verifique se o ESP32 ou publicador mock esta enviando para o topico correto.
-- Confira se os nomes dos topicos estao corretos.
-- Habilite os nos de debug no Node-RED.
-- Use `mosquitto_sub` para confirmar se as mensagens estao sendo publicadas.
+- Verifique se o ESP32 ou publicador mock está enviando para o tópico correto.
+- Confira se os nomes dos tópicos estão corretos.
+- Habilite os nós de debug no Node-RED.
+- Use `mosquitto_sub` para confirmar se as mensagens estão sendo publicadas.
 
-## Consideracoes de Producao
+## Considerações de Produção
 
-- Habilitar autenticacao no MQTT.
+- Habilitar autenticação no MQTT.
 - Usar TLS/SSL.
 - Persistir mensagens no broker.
 - Implementar backup e recovery.
 - Monitorar desempenho do broker.
-- Configurar logs e restart automatico.
-- Revisar regras de validacao e tolerancia a falhas.
+- Configurar logs e restart automático.
+- Revisar regras de validação e tolerância a falhas.
 
 ## Melhorias Futuras
 
-- Modelos reais de ML para identificacao de SO.
-- Estimativa de distancia mais avancada usando multiplas frequencias.
-- Classificacao de tipo de dispositivo, como celular, notebook ou IoT.
-- Analise de aglomeracao e mapas de calor.
-- Reconhecimento de padroes temporais.
+- Modelos reais de ML para identificação de SO.
+- Estimativa de distância mais avançada usando múltiplas frequências.
+- Classificação de tipo de dispositivo, como celular, notebook ou IoT.
+- Análise de aglomeração e mapas de calor.
+- Reconhecimento de padrões temporais.
 
-## Referencias
+## Referências
 
 - [Node-RED Official Docs](https://nodered.org/docs/)
 - [Mosquitto Documentation](https://mosquitto.org/documentation/)
