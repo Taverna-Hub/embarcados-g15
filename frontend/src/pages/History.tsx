@@ -43,7 +43,7 @@ function History(): JSX.Element {
     <div className="space-y-6">
       {error && (
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-amber-800">
-          Nao foi possivel carregar os dados reais. Exibindo dados simulados.
+          Não foi possível carregar os dados reais. Exibindo dados simulados.
         </div>
       )}
 
@@ -52,7 +52,7 @@ function History(): JSX.Element {
       <DeviceList
         devices={filteredDevices}
         loading={loading}
-        emptyMessage="Nenhum endereco armazenado encontrado com os filtros atuais."
+        emptyMessage="Nenhum endereço armazenado encontrado com os filtros atuais."
         compact
       />
     </div>
