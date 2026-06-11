@@ -12,6 +12,10 @@ ESP32 -> MQTT Mosquitto -> Node-RED -> Notebook/ML -> PostgreSQL -> Backend API
 
 Este projeto identifica dispositivos próximos a partir de pacotes WiFi capturados passivamente. Os dados capturados pelo ESP32 são enviados para um broker MQTT, passam por validação e transformação no Node-RED, são analisados pelo serviço de ML/Notebook e gravados em um banco compartilhado. O backend consulta esse banco e disponibiliza endpoints REST para dispositivos, histórico e estatísticas.
 
+![Dashboard](img1.jpeg)
+![Dashboard](img2.jpeg)
+![Dashboard](img3.jpeg)
+
 ## Módulos
 
 ### Hardware
